@@ -42,3 +42,6 @@ echo "Papirus Icons Installed Successfully"
 echo "==Installing JetBrains Mono Font=="
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" &>> $local_dir/Log\ Files/jetbrains_mono_install.log
 echo "Jet Brains Mono Font Installed Successfully"
+
+echo "==Installing Plymouth Boot Themes=="
+git clone https://github.com/adi1090x/plymouth-themes
