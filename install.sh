@@ -14,7 +14,7 @@ echo "Welcome to Spotty's KDE Theme Installer"
 echo "==Updating System=="
 
 # Updating the system to ensure all packages are up to date before installing new themes
-sudo pacman -Syu &>> $local_dir/Log\ Files/pacman.log
+sudo pacman -Syu --no-confirm &>> $local_dir/Log\ Files/pacman.log
 # Add seperators to the log file to make it easier to read
 echo "=====================================" >> $local_dir/Log\ Files/pacman.log
 echo "=====================================" >> $local_dir/Log\ Files/pacman.log
@@ -77,7 +77,27 @@ wget https://github.com/Schneegans/Burn-My-Windows/releases/latest/download/burn
 
 sudo mkdir -p /usr/share/kwin/effects
 sudo tar -xf burn_my_windows_kwin6.tar.gz -C /usr/share/kwin/effects
+rm -f burn_my_windows_kwin6.tar.gz
 echo "Burn My Windows Desktop Effects Installed Successfully"
+
+
+echo "==Installing Global Theme=="
+cp -r $local_dir/SpottyKDE /usr/share/plasma/look-and-feel
+
+#echo "==Installing KDE Login Themes=="
+#git clone https://github.com/dgudim/themes
+
+#read -p "Install a Default Splash? (Y/n): " defaultSplash
+
+#if [ $defaultSplash -eq "y" ] || [ $defaultSplash -eq "Y" ]
+#do
+#    echo "Installing Splash"
+#fi
+
+#cp -r $local_dir/themes/KDE-loginscreens/*/ /home/$USER/.local/share/plasma/look-and-feel
+#rm -rf themes/
+
+
 
 echo "Restarting Plasma to apply changes"
 systemctl --user restart plasma-plasmashell
