@@ -3,15 +3,15 @@
     "KPlugin": {
         "Authors": [
             {
-                "Email": "",
-                "Name": ""
+                "Email": "spottyunderdog18@gmail.com",
+                "Name": "spottyunderdog"
             }
         ],
-        "Description": "",
-        "Id": "metadata",
-        "License": "",
-        "Name": "",
-        "Website": ""
+        "Description": "SpottyKDE is Spottyunderdog's personal KDE Plasma config",
+        "Id": "SpottyKDE",
+        "License": "GPLv3",
+        "Name": "SpottyKDE",
+        "Website": "https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;",
     "X-Plasma-APIVersion": "2",
