@@ -49,10 +49,16 @@ var layout = {
                     "config": {
                         "/": {
                             "popupHeight": "513",
-                            "popupWidth": "691"
+                            "popupWidth": "702"
+                        },
+                        "/ConfigDialog": {
+                            "DialogHeight": "630",
+                            "DialogWidth": "810"
                         },
                         "/General": {
-                            "favoritesPortedToKAstats": "true"
+                            "favoritesPortedToKAstats": "true",
+                            "icon": "start-here-archlinux",
+                            "systemFavorites": "suspend\\,hibernate\\,reboot\\,shutdown"
                         }
                     },
                     "plugin": "org.kde.plasma.kickoff"
@@ -102,7 +108,7 @@ var layout = {
                             "popupWidth": "560"
                         },
                         "/Appearance": {
-                            "customDateFormat": "MMM d, yyyy :",
+                            "customDateFormat": "MMM d, yyyy |",
                             "dateDisplayFormat": "BesideTime",
                             "dateFormat": "custom",
                             "fontFamily": "Noto Sans",

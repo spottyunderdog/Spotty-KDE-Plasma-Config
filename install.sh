@@ -37,7 +37,7 @@ then
     exit 0
 fi
 
-echo "==Updating System=="
+echo "== Updating System =="
 
 # Updating the system to ensure all packages are up to date before installing new themes
 sudo pacman -Syu --no-confirm &>> /dev/null
@@ -45,7 +45,7 @@ sudo pacman -Syu --no-confirm &>> /dev/null
 
 echo "System Updated Successfully"
 
-echo "==Installing Oxygen Themes=="
+echo "== Installing Oxygen Themes =="
 
 # Installing the Oxygen theme and related packages for KDE Plasma
 sudo pacman -S --needed --noconfirm oxygen oxygen-cursors oxygen-icons oxygen-icons-svg oxygen-sounds oxygen5 &>> /dev/null
@@ -54,7 +54,7 @@ sudo pacman -S --needed --noconfirm oxygen oxygen-cursors oxygen-icons oxygen-ic
 echo "Oxygen Themes Installed Successfully"
 
 
-echo "==Installing Papirus Icons==" 
+echo "== Installing Papirus Icons ==" 
 
 # Using the official Papirus install script to install the latest version of the Papirus icon theme
 # There is a pacman package for Papirus, But i'd rather use the official script to ensure I get the latest version of the theme.
@@ -63,15 +63,20 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh &>> /dev/null
 echo "Papirus Icons Installed Successfully"
 
 # Runs the manual install script for JetBrains Mono font to ensure the latest version is installed.
-echo "==Installing JetBrains Mono Font=="
-
+echo "== Installing JetBrains Mono Font =="
+# Downloads the JetBrains Mono Font and installs it to the system font directories for all users.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" &>> /dev/null
-
+sudo mkdir -p /usr/share/fonts/TTF
+sudo mkdir -p /usr/share/fonts/variable
+sudo mkdir -p /usr/share/fonts/webfonts
+sudo mv /home/$USER/.local/share/fonts/fonts/ttf/JetBrainsMono* /usr/share/fonts/TTF/
+sudo mv /home/$USER/.local/share/fonts/fonts/variable/JetBrainsMono* /usr/share/fonts/variable/
+sudo mv /home/$USER/.local/share/fonts/fonts/webfonts/JetBrainsMono* /usr/share/fonts/webfonts/
 echo "Jet Brains Mono Font Installed Successfully"
 
 
 
-echo "==Installing Plymouth Boot Themes=="
+echo "== Installing Plymouth Boot Themes =="
 
 # Creates a Variable to store the current install directory, for easy printout in the script later.
 install_dir=/usr/share/plymouth/themes
@@ -100,7 +105,7 @@ rm -rf $local_dir/plymouth-themes
 
 echo "Plymouth Boot Themes Installed Successfully"
 
-echo "==Installing Window Title Widget=="
+echo "== Installing Plasma6 Window Title Applet =="
 
 # Downloads the Plasma 6 Window Title Applet from the GitHub repo
 git clone https://github.com/harunkrl/plasma6-window-title-applet &>> /dev/null
@@ -108,27 +113,28 @@ git clone https://github.com/harunkrl/plasma6-window-title-applet &>> /dev/null
 install_dir=/usr/share/plasma/plasmoids/org.kde.windowtitle
 sudo mkdir -p $install_dir
 
+# Copies the applets code to the system directory for Plasma 6 applets
 sudo cp -r $local_dir/plasma6-window-title-applet/* $install_dir
 rm -rf $local_dir/plasma6-window-title-applet
 echo "Window Title Widget Installed Successfully"
 
-echo "==Installing Burn My Windows Desktop Effects=="
+echo "== Installing Burn My Windows Desktop Effects=="
 wget https://github.com/Schneegans/Burn-My-Windows/releases/latest/download/burn_my_windows_kwin6.tar.gz &>> /dev/null
 
 install_dir=/usr/share/kwin/effects
-
+# Extracts the Burn My Windows Desktop Effects to the Kwin Effects directory
 sudo mkdir -p $install_dir
 sudo tar -xf burn_my_windows_kwin6.tar.gz -C $install_dir
 rm -f burn_my_windows_kwin6.tar.gz
 echo "Burn My Windows Desktop Effects Installed Successfully"
 
 
-echo "==Installing Global Theme=="
+echo "== Installing SpottyKDE Global Theme =="
 
 install_dir=/usr/share/plasma/look-and-feel
 sudo cp -r $local_dir/SpottyKDE $install_dir
 
-echo "==Installing KDE Login Themes=="
+echo "== Installing KDE Login Splash Themes =="
 git clone https://github.com/dgudim/themes
 
 read -p "Install all Login Splashes? (Y/n): " allLoginSplashes
