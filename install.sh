@@ -2,17 +2,40 @@
 
 local_dir=$(pwd)
 
-# Probably redudent, But if the Log file directory doesn't exist, creates it
-if [ ! -d "$local_dir/Log Files" ]
-then
-
-    echo "Log Directory does not exist, creating."
-
-    mkdir -p "$local_dir/Log Files"
-
-fi
-
 echo "Welcome to Spotty's KDE Theme Installer"
+
+echo "This script will install the Spotty KDE Plasma Config and its dependencies to your system"
+echo "The Dependencie are:"
+echo "Oxygen Theme, Papirus Icons, JetBrains Mono Font, Plymouth Boot Themes, Window Title Widget, Burn My Windows Desktop Effects"
+echo "What will be installed:"
+echo "== Pacman Packages =="
+echo "- oxygen"
+echo "- oxygen-cursors"
+echo "- oxygen-icons"
+echo "- oxygen-icons-svg"
+echo "- oxygen-sounds"
+echo "- oxygen5"
+echo "== Papirus Icon Theme =="
+echo "link: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme"
+echo "== JetBrains Mono Font =="
+echo "link: https://www.jetbrains.com/lp/mono/"
+echo "link: https://github.com/JetBrains/JetBrainsMono"
+echo "== Plymouth Boot Themes =="
+echo "link: https://github.com/adi1090x/plymouth-themes?tab=readme-ov-file"
+echo "== Window Title Widget =="
+echo "Link: https://github.com/harunkrl/plasma6-window-title-applet/tree/master"
+echo "== Burn My Windows Desktop Effects =="
+echo "Link: https://github.com/Schneegans/Burn-My-Windows"
+echo "== Splash Themes =="
+echo "link: https://github.com/dgudim/themes"
+
+read -p "Do you want to continue with the installation? (Y/n): " continueInstall
+
+if [[ $continueInstall == "n" ]] || [[ $continueInstall == "N" ]]
+then
+    echo "Installation Cancelled"
+    exit 0
+fi
 
 echo "==Updating System=="
 
@@ -61,7 +84,8 @@ rm -rf $local_dir/plymouth-themes/template
 
 # Installs the Plymouth themes to the system. IE Coppies each included theme to the /usr/share/plymouth/themes directory
 
-for themepack in $local_dir/plymouth-themes/*; do
+for themepack in $local_dir/plymouth-themes/*
+do
 
     if [ -d $themepack ]
     then
@@ -109,24 +133,32 @@ git clone https://github.com/dgudim/themes
 
 read -p "Install all Login Splashes? (Y/n): " allLoginSplashes
 
-if [ $allLoginSplashes -eq "y" ] || [ $allLoginSplashes -eq "Y" ]
+splashThemeList=$(ls -d $local_dir/themes/KDE-loginscreens/*/)
+# If the user chooses to install all available login splash themes,
+# Copies all the splashes to the local user look-and-feel directory,
+# to allow the user to Delete the splash themes they don't want to use.
+if [[ $allLoginSplashes == "y" ]] || [[ $allLoginSplashes == "Y" ]]
 then
     install_dir=/home/$USER/.local/share/plasma/look-and-feel
-    echo "Installing All Splash Themes"
-    cp -r $local_dir/themes/KDE-loginscreens/Illusion/contents/* $install_dir
+    echo "Installing All Splash Themes to the Local user account"
+    
+   for theme in $splashThemeList
+   do
+      echo $theme | grep source &>> /dev/null
+      output=$?
+      if [ $output -ne 0 ]
+      then
+         cp -r $theme $install_dir
+      fi
+   done
     echo "Splash themes Installed to $install_dir"
     echo "Spalsh themes will appear as a 'global theme' and a 'splash sceen' in the system settings"
 fi
 
+echo "Installing Splash Theme for Spotty KDE Global Theme"
 install_dir=/usr/share/plasma/look-and-feel/SpottyKDE/contents/
 
-splashThemeList=$(ls -d $local_dir/themes/KDE-loginscreens/*/)
-
-if [ -f themelist ]
-then
-   rm themelist
-fi
-
+echo "Available Splash Themes:"
 count=1
 for theme in $splashThemeList
 do
@@ -134,7 +166,7 @@ do
    output=$?
    if [ $output -ne 0 ]
    then
-      echo "$count: $(basename $theme)" >> themelist
+      echo "$count: $(basename $theme)" >> themelist.temp
       ((count++))
    fi
 
@@ -144,12 +176,13 @@ done
 while read -r line
 do 
    echo $line
-done < themelist
+done < themelist.temp
 
+echo "Please select a theme from the list above to install as the default login splash for Spotty KDE"
 read -p "Enter Theme number: (1 - $count): " selection
 choice=Illusion
 
-# Searches 
+# Searches themelist file for the selected splash and stores it as the choice
 while read -r line
 do
    echo $line | grep $selection &>> /dev/null
@@ -159,8 +192,9 @@ do
       choice=$line
       break
    fi
-done < themelist
+done < themelist.temp
 
+# Removes the Number and colon from the choice variable, leaving only the theme name
 count=0
 for item in $choice
 do 
@@ -170,7 +204,14 @@ do
    fi
    count=1
 done
+# Installs the chosen splash theme to the Spotty KDE Global Theme directory, so it will be used as the default login splash for the theme.
 sudo cp -r $local_dir/themes/KDE-loginscreens/$choice/contents/* $install_dir
+
+# Removes themes repo and the temporary thelist file.
+rm themelist.temp
+rm -rf themes/
+echo "KDE Splash Theme Installed Successfully"
+
 
 echo "Restarting Plasma to apply changes"
 systemctl --user restart plasma-plasmashell

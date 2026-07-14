@@ -77,6 +77,21 @@ var layout = {
                 },
                 {
                     "config": {
+                        "/Appearance": {
+                            "txt": "%a"
+                        },
+                        "/ConfigDialog": {
+                            "DialogHeight": "630",
+                            "DialogWidth": "810"
+                        },
+                        "/Substitutions": {
+                            "subsReplace": "\"Telegram\",\"Gimp\",\"LibreOffice\",\"Spotify\",\"Kate\""
+                        }
+                    },
+                    "plugin": "org.kde.windowtitle"
+                },
+                {
+                    "config": {
                     },
                     "plugin": "org.kde.plasma.panelspacer"
                 },
