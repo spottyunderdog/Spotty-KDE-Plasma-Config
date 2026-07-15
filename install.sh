@@ -135,7 +135,7 @@ install_dir=/usr/share/plasma/look-and-feel
 sudo cp -r $local_dir/SpottyKDE $install_dir
 
 echo "== Installing KDE Login Splash Themes =="
-git clone https://github.com/dgudim/themes
+git clone https://github.com/dgudim/themes &>> /dev/null
 
 read -p "Install all Login Splashes? (Y/n): " allLoginSplashes
 
