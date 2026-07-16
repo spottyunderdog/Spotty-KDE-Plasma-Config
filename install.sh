@@ -20,6 +20,8 @@ echo "link: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme"
 echo "== JetBrains Mono Font =="
 echo "link: https://www.jetbrains.com/lp/mono/"
 echo "link: https://github.com/JetBrains/JetBrainsMono"
+echo "== JetBrains Mono NerdFont== "
+echo "link: https://github.com/ryanoasis/nerd-fonts"
 echo "== Plymouth Boot Themes =="
 echo "link: https://github.com/adi1090x/plymouth-themes"
 echo "== Window Title Widget =="
@@ -63,15 +65,19 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh &>> /dev/null
 echo "Papirus Icons Installed Successfully"
 
 # Runs the manual install script for JetBrains Mono font to ensure the latest version is installed.
-echo "== Installing JetBrains Mono Font =="
+echo "== Installing JetBrains Mono Font & JetBrains Mono Nerd Font =="
 # Downloads the JetBrains Mono Font and installs it to the system font directories for all users.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" &>> /dev/null
+sudo pacman -S --noconfirm --needed ttf-jetbrains-mono-nerd &>> /dev/null
 sudo mkdir -p /usr/share/fonts/TTF
 sudo mkdir -p /usr/share/fonts/variable
 sudo mkdir -p /usr/share/fonts/webfonts
 sudo mv /home/$USER/.local/share/fonts/fonts/ttf/JetBrainsMono* /usr/share/fonts/TTF/
 sudo mv /home/$USER/.local/share/fonts/fonts/variable/JetBrainsMono* /usr/share/fonts/variable/
 sudo mv /home/$USER/.local/share/fonts/fonts/webfonts/JetBrainsMono* /usr/share/fonts/webfonts/
+
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz &>> /dev/null
+
 echo "Jet Brains Mono Font Installed Successfully"
 
 

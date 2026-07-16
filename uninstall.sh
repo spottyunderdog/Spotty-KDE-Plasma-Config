@@ -18,6 +18,7 @@ echo "== Uninstalling JetBrains Mono Font =="
 sudo rm -rf /usr/share/fonts/TTF/JetBrainsMono*
 sudo rm -rf /usr/share/fonts/variable/JetBrainsMono* 
 sudo rm -rf /usr/share/fonts/webfonts/JetBrainsMono*
+sudo pacman -Rns --noconfirm ttf-jetbrains-mono-nerd
 echo "JetBrains Mono Font Uninstalled Successfully"
 
 echo "== Uninstalling Plymouth Boot Themes =="
