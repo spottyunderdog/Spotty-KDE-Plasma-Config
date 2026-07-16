@@ -31,11 +31,10 @@ This script will install the following onto your system directory.
 7. Login Splashes Found in dgudim's Themes repository:
     - Link: https://github.com/dgudim/themes
 
-# Installation & Setup
+## Installing From Repository
 
-1. Download Repository and Run install script.
-    **Installing From Main**
-    ```
+**Installing From Master Branch**
+```
     # Clone main Repo
     git clone -b main https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
@@ -44,41 +43,48 @@ This script will install the following onto your system directory.
 
     # Install
     ./install.sh
-    ```
+```
 
-
-    ** Installing From Experimental **
-    ```
-    # Clone Experimantal Repository
-    git clone -b experimental https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
+**Installing From Development** (Not reccommended)
+```
+    # Clone development Repository
+    git clone -b development https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
 
     # Install
     ./install.sh
-    ```
-    The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
+```
+The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
-The Script will automaticly
-- Update the system
-- Install oxygen
-- Install Papirus icons
-- Install JetBrains Mono Font
-- Install Plymouth boot themes
-- Install Window Title Applet
-- Install Kwin Window Effects
-- Install the Global theme
-- Install One a Splash screen of the users choise to the Global theme.
-- If the User wants, install all the available splash screens. They are install to the users .local/share/plasma/look-and-feel directory, for easy removal.
+## Installing From Archive
+1. There are 2 kinds of Archives included, a release based from the Master Branch, named like so: SpottyKDEPlasma-[version].[archivetype]; and from the Development Branch, and are named SpottyKDEPlasma-[version]-dev.[archivetype]. The Development Archives are functional, however may not function as intended. For the most seemless it is reccommend to download the latest stable release which you can find [here](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/latest). You can find the Pre-release, development branch based packages [here](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/). 
 
-2. After installing you will have to go to ***System Settings*** > ***Appearance & Style*** > ***Global Theme*** and select *SpottyKDE*. If you want the included desktop layout, check the *Desktop and window layout* option, otherwise hit apply. ***Warning, if you choose to apply the Desktop and wind layout option, you will loose your current Desktop layout. You will need to reconfigure your wallpaper and taskbar.***
+2. Download the release that you want to install, I reccomend downloaded the [Latest, stable release](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/latest), and extract the archive.
 
-3. Select the Boot splash screen you would like to use. These are found in ***System Settings*** > ***Appearance & Style*** > ***Color & Themes*** > ***Boot Splash Scree*** If you would like to see a preview of them see [here](https://github.com/adi1090x/plymouth-themes).
+3. Enter the SpottyKDE-Plasma-Config Directory, or the directory where you extracted the files contents to, and then run the script. If the script is not executable open the terminal in the directory that has the install script and run:
+```
+chmod +x install.sh
+```
+and the file should now be executable. You can now run the script.
 
-4. In ***System Settings*** > ***Appearance & Style*** > ***Text & Fonts***, Click *Adjust All Fonts*, Check Font and select JetBrains Mono, then click ok.
+To run the script open your terminal and run the following (make sure to replace the path to the archive with the location you extracted the archive to)
+```
+cd /path/to/extracted/archive
+./install.sh
+```
+The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
-5. Select the window animation you would like to use in ***System Settings*** > ***Appearance & Style*** > ***Animation***
+## Post Intall Setup
+
+1. After installing you will have to go to ***System Settings*** > ***Appearance & Style*** > ***Global Theme*** and select *SpottyKDE*. If you want the included desktop layout, check the *Desktop and window layout* option, otherwise hit apply. ***Warning, if you choose to apply the Desktop and wind layout option, you will loose your current Desktop layout. You will need to reconfigure your wallpaper and taskbar.***
+
+2. Select the Boot splash screen you would like to use. These are found in ***System Settings*** > ***Appearance & Style*** > ***Color & Themes*** > ***Boot Splash Scree*** If you would like to see a preview of them see [here](https://github.com/adi1090x/plymouth-themes).
+
+3. In ***System Settings*** > ***Appearance & Style*** > ***Text & Fonts***, Click *Adjust All Fonts*, Check Font and select JetBrains Mono, then click ok.
+
+4. Select the window animation you would like to use in ***System Settings*** > ***Appearance & Style*** > ***Animation***
 
 # Unistalling
 If you don't have the repository anymore, clone the repository, and enter it from the terminal. Then run the included Unistall stcript: *unistall.sh* The script will give you the option to remove the repository if you so choose.
