@@ -59,9 +59,9 @@ This script will install the following onto your system directory.
 The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
 ## Installing From Archive
-1. There are 2 kinds of Archives included, a release based from the Master Branch, named like so: SpottyKDEPlasma-[version].[archivetype]; and from the Development Branch, and are named SpottyKDEPlasma-[version]-dev.[archivetype]. The Development Archives are functional, however may not function as intended. For the most seemless it is reccommend to download the latest stable release which you can find [here](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/latest). You can find the Pre-release, development branch based packages [here](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/). 
+1. There are 2 types of releases avaible to download, the Release and Pre-release. The release archives are based on the Master Branch, which gets updates when there is a stable, feature-complete, & funcitonal versions of the script. The Pre-Release verisions, are only functional and may contain incomplete or broken features. Release archive follow this naming format **SpottyKDEPlasma-[version].[tar.gz/zip]**; and the Pre-Releases follow this naming format **SpottyKDEPlasma-[version]-[alpha/beta].[num].[tar.gz/zip]**
 
-2. Download the release that you want to install, I reccomend downloaded the [Latest, stable release](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/latest), and extract the archive.
+2. Download the release that you want to install, I reccomend downloaded the [Latest, stable release](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/latest), and extract the archive. You can find the pre-releases [here](https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config/releases/)
 
 3. Enter the SpottyKDE-Plasma-Config Directory, or the directory where you extracted the files contents to, and then run the script. If the script is not executable open the terminal in the directory that has the install script and run:
 ```
