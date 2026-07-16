@@ -34,10 +34,10 @@ This script will install the following onto your system directory.
 # Installation & Setup
 
 1. Download Repository and Run install script.
-    **Installing From Main**
+    **Installing From Master**
     ```
-    # Clone main Repo
-    git clone -b main https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
+    # Clone master Repo
+    git clone -b master https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
@@ -47,10 +47,10 @@ This script will install the following onto your system directory.
     ```
 
 
-    ** Installing From Experimental **
+    ** Installing From Development **
     ```
-    # Clone Experimantal Repository
-    git clone -b experimental https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
+    # Clone devolopment Repository
+    git clone -b development https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
