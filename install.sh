@@ -76,8 +76,6 @@ sudo mv /home/$USER/.local/share/fonts/fonts/ttf/JetBrainsMono* /usr/share/fonts
 sudo mv /home/$USER/.local/share/fonts/fonts/variable/JetBrainsMono* /usr/share/fonts/variable/
 sudo mv /home/$USER/.local/share/fonts/fonts/webfonts/JetBrainsMono* /usr/share/fonts/webfonts/
 
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz &>> /dev/null
-
 echo "Jet Brains Mono Font Installed Successfully"
 
 
