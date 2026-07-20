@@ -74,14 +74,16 @@ isValidInputNum() {
     fi
 }
 
-installJetbrains() {
+installJetBrains() {
     local installType=$1
-
+    echo "Installing JetBrains Mono Font & JetBrains Mono Nerd Font..."
+    local installSuccess="JetBrains Mono Font & JetBrains Mono Nerd Font installed Succesfully"
     if isUserInstall "$installType"
     then
         # JetBrains Mono Font User Install
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" &>> /dev/null
-    
+        sudo pacman -S --noconfirm --needed ttf-jetbrains-mono-nerd &>> /dev/null
+        echo "$installSuccess"
     elif isSystemInstall "$installType"
     then
         # JetBrains Mono Font System Wide Install
@@ -92,7 +94,8 @@ installJetbrains() {
         sudo mv /home/"$USER"/.local/share/fonts/fonts/ttf/JetBrainsMono* /usr/share/fonts/TTF/
         sudo mv /home/"$USER"/.local/share/fonts/fonts/variable/JetBrainsMono* /usr/share/fonts/variable/
         sudo mv /home/"$USER"/.local/share/fonts/fonts/webfonts/JetBrainsMono* /usr/share/fonts/webfonts/
-    
+        sudo pacman -S --noconfirm --needed ttf-jetbrains-mono-nerd &>> /dev/null
+        echo "$installSuccess"
     else
         local exitCode=141
         echo "Invalid option or no option provided in function call"
@@ -101,32 +104,49 @@ installJetbrains() {
     fi
 }
 
-installPapirus() {
+installPapirusIcons() {
     local installType=$1
+    echo "Installing Papirus Icons..."
+    local installSuccess="Papirus Icons installed successfully"
     if isUserInstall "$installType"
     then
         # Papirus Icons Local User Install
         wget -qO- https://git.io/papirus-icon-theme-install | env DESTDIR="$HOME/.local/share/icons" sh
+        echo "$installSuccess"
     elif isSystemInstall "$installType"
     then
         # Papirus Icons System wide install
         wget -qO- https://git.io/papirus-icon-theme-install | sh
+        echo "$installSuccess"
+    else
+        local exitCode=142
+        echo "Invalid option or no option provided in function call"
+        echo "Exit Code: $exitCode"
+        exit $exitCode
     fi
 }
 
 installSpottyKDE() {
-    local localDir=$1
-    local installType=$3
-    if [[ "$installType" == "user" ]]
+    local installType=$1
+    local localDir
+    localDir=$(pwd)
+    echo "Installing SpottyKDE Theme..."
+    local installSuccess="SpottyKDE Theme Successfully installed"
+    if isUserInstall "$installType"
     then
-        local installDir=$HOME/.local/plasma/look-and-feel
+        local installDir=$HOME/.local/share/plasma/look-and-feel
         cp -r "$localDir"/SpottyKDE "$installDir"
-        installSplashScreens "$localDir" "$installDir" user
-    else
+        echo "$installSuccess"
+    elif isSystemInstall "$installType"
+    then
         local installDir=/usr/share/plasma/look-and-feel
         sudo cp -r "$localDir"/SpottyKDE $installDir
-        installSplashScreens "$localDir" $installDir system
-
+        echo "$installSuccess"
+    else
+        local exitCode=143
+        echo "Invalid option or no option provided in function call"
+        echo "Exit Code: $exitCode"
+        exit $exitCode
     fi
 }
 
@@ -136,28 +156,30 @@ installSplashScreens() {
         local themePath=$1
         local installDir=$2
         echo "Splash Theme List"
-            printValidSplashThemes $themePath
-            local numThemes=$(numValidSplashThemes "$themePath")
+            printValidSplashThemes "$themePath"
+            local numThemes
+            numThemes=$(numValidSplashThemes "$themePath")
             echo ""
             echo "Enter the theme to be installed alongside SpottyKDE."
             read -rp "Enter num: (1-$numThemes) " themeSelection
-            while ! isValidInputNum $themeSelection 1 $numThemes
+            while ! isValidInputNum "$themeSelection" 1 "$numThemes"
             do
                 read -rp "Enter num: (1-$numThemes) " themeSelection
             done
-            local selectedTheme="$(findSplashTheme $themeSelection $themePath)"
+            local selectedTheme
+            selectedTheme="$(findSplashTheme "$themeSelection" "$themePath")"
 
             if isInUsrShareDir  "$installDir"
             then
-                sudo cp -r $themePath/$selectedTheme/contents/* "$installDir"
+                sudo cp -r "$themePath"/"$selectedTheme"/contents/* "$installDir"
             else
-                cp -r $themePath/$selectedTheme/contents/* "$installDir"
+                cp -r "$themePath"/"$selectedTheme"/contents/* "$installDir"
             fi
 
             read -rp "Would you like to install all Splash Screens as a Global theme? (Y/n) " addAllSplashes
             if [[ "$addAllSplashes" =~ ^[Yy] ]]
             then
-                addSplashThemesAsGlobalThemes $localDir
+                addSplashThemesAsGlobalThemes "$localDir"
             fi
     }
     addSplashThemesAsGlobalThemes() {
@@ -168,10 +190,11 @@ installSplashScreens() {
         echo "Adding All Splash Screens As Global Themes"
         for theme in $themeList
         do 
-            if isGlobalTheme $theme
+            if isGlobalTheme "$theme"
             then
-                echo "Adding $(basename $theme)"
-                cp -r $theme "$HOME"/.local/share/plasma/look-and-feel
+                echo "Adding $(basename "$theme")"
+                cp -r "$theme" "$HOME"/.local/share/plasma/look-and-feel
+                sleep 0.2
             fi
         done
         echo "Splashes Added"
@@ -186,11 +209,11 @@ installSplashScreens() {
         for theme in $themeList
         do
 
-            if isGlobalTheme $theme && [ $count -eq "$num" ]
+            if isGlobalTheme "$theme" && [ $count -eq "$num" ]
             then
-                echo "$(basename $theme)"
+                basename "$theme"
                 break
-            elif isGlobalTheme $theme
+            elif isGlobalTheme "$theme"
             then
                 ((count++))
             fi
@@ -207,7 +230,7 @@ installSplashScreens() {
         for theme in $themeList
         do
             
-            if isGlobalTheme $theme
+            if isGlobalTheme "$theme"
             then
                 ((count++))
             fi
@@ -230,32 +253,94 @@ installSplashScreens() {
             fi
         done
     }
-    local localDir=$1
-    local installType=$2
+    local localDir
+    localDir=$(pwd)
+    local installType=$1
     themePath=$localDir/themes/KDE-loginscreens
-    echo $themePath
+    
     git clone https://github.com/dgudim/themes
 
     if isUserInstall "$installType"
     then 
         local installDir="$HOME"/.local/share/plasma/look-and-feel/SpottyKDE/contents
         
-        addSplashsToDirectory $themePath $installDir
+        addSplashsToDirectory "$themePath" "$installDir"
     elif isSystemInstall "$installType"
     then
-        local installDir=/usr/share/plasma/look-and-feel/SpottyKDE/contentsS
-        addSplashsToDirectory $themePath $installDir
+        local installDir=/usr/share/plasma/look-and-feel/SpottyKDE/contents
+        addSplashsToDirectory "$themePath" $installDir
     else
         local exitCode=144
         echo "Invalid option or no option provided in function call"
         echo "Exit Code: $exitCode"
         exit $exitCode
     fi
-    rm -rf $localDir/themes
-    echo "Install complete"
+    rm -rf "$localDir"/themes
+    echo "Splash screen(s) installed successfully"
 
 }
 
-path=$(pwd)
-#printValidSplashThemes $path/themes/KDE-loginscreens
-installSplashScreens $path --user
+displayPackagesToInstall() {
+    echo "The Dependencie are:"
+    echo "Oxygen Theme, Papirus Icons, JetBrains Mono Font, Plymouth Boot Themes, Window Title Widget, Burn My Windows Desktop Effects"
+    echo "What will be installed:"
+    echo "== Pacman Packages =="
+    echo "- oxygen"
+    echo "- oxygen-cursors"
+    echo "- oxygen-icons"
+    echo "- oxygen-icons-svg"
+    echo "- oxygen-sounds"
+    echo "- oxygen5"
+    echo "== Papirus Icon Theme =="
+    echo "link: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme"
+    echo "== JetBrains Mono Font =="
+    echo "link: https://www.jetbrains.com/lp/mono/"
+    echo "link: https://github.com/JetBrains/JetBrainsMono"
+    echo "== JetBrains Mono NerdFont== "
+    echo "link: https://github.com/ryanoasis/nerd-fonts"
+    echo "== Plymouth Boot Themes =="
+    echo "link: https://github.com/adi1090x/plymouth-themes"
+    echo "== Window Title Widget =="
+    echo "Link: https://github.com/harunkrl/plasma6-window-title-applet"
+    echo "== Burn My Windows Desktop Effects =="
+    echo "Link: https://github.com/Schneegans/Burn-My-Windows"
+    echo "== Splash Themes =="
+    echo "link: https://github.com/dgudim/themes"
+}
+
+installAllItems() {
+    installType=$1
+
+    echo "Welcome to Spotty's KDE Theme Installer"
+    echo "This script will install the Spotty KDE Plasma Config and its dependencies to your system"
+    displayPackagesToInstall
+    read -rp "Do you want to proceed with the installation? (Y/n): " installTheming
+
+    if [[ "$installTheming" =~ ^[Nn] ]]
+    then
+        echo "Installation Canceled"
+        exit 0
+    fi
+
+    installJetBrains "$installType"
+
+    installPapirusIcons "$installType"
+
+    installSpottyKDE "$installType"
+
+    installSplashScreens "$installType"
+
+    echo "Install Complete"
+}
+
+installType=$1
+
+if [ $# -ne 1 ]
+then 
+    echo "non valid arguement count"
+elif ! isUserInstall $installType && ! isSystemInstall $installType
+then 
+    echo "Non Valid Arguement"
+else
+    installAllItems $installType
+fi
