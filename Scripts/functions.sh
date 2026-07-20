@@ -44,6 +44,27 @@ isSystemInstall() {
     fi
 }
 
+isValidInputNum() {
+    local input=$1
+    local minInputNum=$2
+    local maxInputNum=$3
+    if [[ ! "$input" =~ ^[0-9]+$ ]]
+    then
+        echo "Input is not a Number. Please type the number corisponding to your choise"
+        false
+    elif [[ $input -lt $minInputNum ]]
+    then
+        echo "Input to small, please re-enter number for selection"
+        false
+    elif [[ $input -gt $maxInputNum ]]
+    then
+        echo "Input to large, please re-enter number for selection"
+        false
+    else
+        true
+    fi
+}
+
 installJetbrains() {
     local installType=$1
 
@@ -100,17 +121,28 @@ installSpottyKDE() {
     fi
 }
 
+
 installSplashScreens() {
     local localDir=$1
     local installType=$2
-    local themeList
-    themeList=$(ls -d "$localDir"/themes/KDE-loginscreens/*/)
-    local theme
+    themePath=$localDir/themes/KDE-loginscreens
+    echo $themePath
     #git clone https://github.com/dgudim/themes &>> /dev/null
 
-    if isUserInstall $installType
+    if isUserInstall "$installType"
     then 
-        
+        echo "Splash Theme List"
+        printValidSplashThemes $themePath
+        local numThemes=$(numValidSplashThemes "$themePath")
+        echo ""
+        echo "Enter the theme to be installed alongside SpottyKDE."
+        read -rp "Enter num: (1-$numThemes) " themeSelection
+        while ! isValidInputNum $themeSelection 1 $numThemes
+        do
+            read -rp "Enter num: (1-$numThemes) " themeSelection
+        done
+        echo $themeSelection
+    fi
 
 }
 
@@ -131,19 +163,6 @@ addSplashThemesAsGlobalThemes() {
     echo "Splashes Added"
 }
 
-removeEndingSlash(){
-    local directory=$1
-    if [[ "$directory" == "${*/}" ]]
-    then
-        local length=${#directory}
-        local length=$((length - 1))
-        local directory
-        directory=$(echo "$directory" | cut -c -$length)
-        echo "$directory"
-    else
-        echo "$directory"
-    fi
-}
 
 findSplashTheme() {
     local num=$1
@@ -164,26 +183,39 @@ findSplashTheme() {
 
     done
 }
-
-printValidSplashThemes() {
+numValidSplashThemes() {
     local themesDir=$1
-    local themeList=$(ls -d "$themesDir"/*/)
-    themesDir=$(removeEndingSlash "$themesDir")
+    local themeList
+    themeList=$(ls -d "$themesDir"/*/)
     local count=1
     local theme
 
     for theme in $themeList
     do
         
-        if isGlobalTheme "$themesDir"/"$(basename "$theme")"
+        if isGlobalTheme $theme
+        then
+            ((count++))
+        fi
+    done
+    echo $((count-1))
+}
+printValidSplashThemes() {
+    local themesDir=$1
+    local themeList
+    themeList=$(ls -d "$themesDir"/*/)
+    local count=1
+    local theme
+
+    for theme in $themeList
+    do
+        if isGlobalTheme "$theme"
         then
             echo "$count: $(basename "$theme")"
             ((count++))
         fi
     done
-    
 }
 
 path=$(pwd)
-
-addSplashThemesAsGlobalThemes $path
+installSplashScreens $path --user
