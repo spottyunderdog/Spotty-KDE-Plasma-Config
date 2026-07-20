@@ -53,8 +53,10 @@ This script will install the following onto your system directory.
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
 
-    # Install
-    ./install.sh
+    # Install For Local User
+    ./install.sh -u
+    # Install System Wide
+    ./install.sh -s
 ```
 The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
@@ -74,6 +76,15 @@ To run the script open your terminal and run the following (make sure to replace
 cd /path/to/extracted/archive
 ./install.sh
 ```
+for the V2.0-Beta 1 archive extract the archive and  run on of the following
+The laucnh options are required, AND MUST BE USED in order to install the theming.
+```
+# For Local User installs
+./install.sh -u
+# For System-Wide Installs
+./install.sh -s
+```
+
 The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
 ## Post Intall Setup
