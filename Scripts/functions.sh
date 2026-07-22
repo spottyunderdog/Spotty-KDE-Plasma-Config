@@ -53,6 +53,16 @@ isSystemInstall() {
     fi
 }
 
+isUninstall() {
+    local option=$1
+    if [[ "$option" == "--uninstall" ]]
+    then
+        true
+    else
+        false
+    fi
+}
+
 isValidInputNum() {
     local input=$1
     local minInputNum=$2
@@ -77,13 +87,13 @@ isValidInputNum() {
 installJetBrains() {
     local installType=$1
     echo "Installing JetBrains Mono Font & JetBrains Mono Nerd Font..."
-    local installSuccess="JetBrains Mono Font & JetBrains Mono Nerd Font installed Succesfully"
+    local installSuccessMes="JetBrains Mono Font & JetBrains Mono Nerd Font installed Succesfully"
     if isUserInstall "$installType"
     then
         # JetBrains Mono Font User Install
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" &>> /dev/null
         sudo pacman -S --noconfirm --needed ttf-jetbrains-mono-nerd &>> /dev/null
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     elif isSystemInstall "$installType"
     then
         # JetBrains Mono Font System Wide Install
@@ -95,7 +105,7 @@ installJetBrains() {
         sudo mv /home/"$USER"/.local/share/fonts/fonts/variable/JetBrainsMono* /usr/share/fonts/variable/
         sudo mv /home/"$USER"/.local/share/fonts/fonts/webfonts/JetBrainsMono* /usr/share/fonts/webfonts/
         sudo pacman -S --noconfirm --needed ttf-jetbrains-mono-nerd &>> /dev/null
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     else
         local exitCode=141
         echo "Invalid option or no option provided in function call"
@@ -107,17 +117,17 @@ installJetBrains() {
 installPapirusIcons() {
     local installType=$1
     echo "Installing Papirus Icons..."
-    local installSuccess="Papirus Icons installed successfully"
+    local installSuccessMes="Papirus Icons installed successfully"
     if isUserInstall "$installType"
     then
         # Papirus Icons Local User Install
         wget -qO- https://git.io/papirus-icon-theme-install | env DESTDIR="$HOME/.local/share/icons" sh
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     elif isSystemInstall "$installType"
     then
         # Papirus Icons System wide install
         wget -qO- https://git.io/papirus-icon-theme-install | sh
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     else
         local exitCode=142
         echo "Invalid option or no option provided in function call"
@@ -131,17 +141,17 @@ installSpottyKDE() {
     local localDir
     localDir=$(pwd)
     echo "Installing SpottyKDE Theme..."
-    local installSuccess="SpottyKDE Theme Successfully installed"
+    local installSuccessMes="SpottyKDE Theme Successfully installed"
     if isUserInstall "$installType"
     then
         local installDir=$HOME/.local/share/plasma/look-and-feel
         cp -r "$localDir"/SpottyKDE "$installDir"
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     elif isSystemInstall "$installType"
     then
         local installDir=/usr/share/plasma/look-and-feel
         sudo cp -r "$localDir"/SpottyKDE $installDir
-        echo "$installSuccess"
+        echo "$installSuccessMes"
     else
         local exitCode=143
         echo "Invalid option or no option provided in function call"
@@ -253,30 +263,97 @@ installSplashScreens() {
             fi
         done
     }
+    local installType=$1
     local localDir
     localDir=$(pwd)
-    local installType=$1
     themePath=$localDir/themes/KDE-loginscreens
-    
+    local installSuccessMes="Splash screen(s) installed successfully"
+
     git clone https://github.com/dgudim/themes
 
     if isUserInstall "$installType"
     then 
         local installDir="$HOME"/.local/share/plasma/look-and-feel/SpottyKDE/contents
-        
         addSplashsToDirectory "$themePath" "$installDir"
+        rm -rf "$localDir"/themes
+        echo "$installSuccessMes"
     elif isSystemInstall "$installType"
     then
         local installDir=/usr/share/plasma/look-and-feel/SpottyKDE/contents
         addSplashsToDirectory "$themePath" $installDir
+        rm -rf "$localDir"/themes
+        echo "$installSuccessMes"
     else
+        rm -rf "$localDir"/themes
         local exitCode=144
         echo "Invalid option or no option provided in function call"
         echo "Exit Code: $exitCode"
         exit $exitCode
     fi
-    rm -rf "$localDir"/themes
-    echo "Splash screen(s) installed successfully"
+
+
+}
+
+installPlasmaWindowApplet() {
+    local installTyp=$1
+    local localDir
+    localDir=$(pwd)
+    echo "Installing plasma6-window-title-applet..."
+    local installSuccessMes="Window Title Widget Installed Successfully"
+    git clone https://github.com/harunkrl/plasma6-window-title-applet &>> /dev/null
+
+    if isUserInstall $installType
+    then
+        local installDir="$HOME"/.local/share/plasma/plasmoids/org.kde.windowtitle
+        mkdir -p $installDir
+        cp -r $localDir/plasma6-window-title-applet/* $installDir
+        rm -rf $localDir/plasma6-window-title-applet
+        echo "$installSuccessMes"
+    elif isSystemInstall $installType
+    then
+        local installDir=/usr/share/plasma/plasmoids/org.kde.windowtitle
+        sudo mkdir -p $installDir
+        sudo cp -r $localDir/plasma6-window-title-applet/* $installDir
+        rm -rf $localDir/plasma6-window-title-applet
+        echo "$installSuccessMes"
+    else
+        rm -rf $localDir/plasma6-window-title-applet
+        exitCode=145
+        echo "Invalid option or no option provided in function call"
+        echo "Exit Code: $exitCode"
+        exit $exitCode
+    fi
+}
+
+installBurnMyWindowsEffects() {
+    local installType=$1
+    local localDir
+    localDir=$(pwd)
+    echo "Installing Burn My Windows Desktop Effects"
+    local installSuccessMes="Burn My Windows Desktop Effects installed successfully"
+    wget https://github.com/Schneegans/Burn-My-Windows/releases/latest/download/burn_my_windows_kwin6.tar.gz &>> /dev/null
+    if isUserInstall $installType
+    then
+        local installDir="$HOME"/.local/share/kwin/effects
+        mkdir -p $installDir
+        tar -xf burn_my_windows_kwin6.tar.gz -C $installDir
+        rm -f $localDir/burn_my_windows_kwin6.tar.gz
+        echo "$installSuccessMes"
+    elif isSystemInstall $installType
+    then
+        local installDir=/usr/share/kwin/effects
+        sudo mkdir -p $installDir
+        sudo tar -xf burn_my_windows_kwin6.tar.gz -C $installDir
+        rm -f $localDir/burn_my_windows_kwin6.tar.gz
+        echo "$installSuccessMes"
+    else
+        rm -f $localDir/burn_my_windows_kwin6.tar.gz
+        exitCode=145
+        echo "Invalid option or no option provided in function call"
+        echo "Exit Code: $exitCode"
+        exit $exitCode
+    fi
+    fi
 
 }
 
@@ -322,9 +399,15 @@ installAllItems() {
         exit 0
     fi
 
+    sudo pacman -Syu --no-confirm
+
     installJetBrains "$installType"
 
     installPapirusIcons "$installType"
+
+    installBurnMyWindowsEffects "$installType"
+
+    installPlasmaWindowApplet "$installType"
 
     installSpottyKDE "$installType"
 
@@ -333,14 +416,27 @@ installAllItems() {
     echo "Install Complete"
 }
 
-installType=$1
+unistallConfiguration() {
+    
+    # Uninstalls Papirus
+    wget -qO- https://git.io/papirus-icon-theme-uninstall | sh
+
+}
+
+arguement=$1
 
 if [ $# -ne 1 ]
-then 
-    echo "non valid arguement count"
-elif ! isUserInstall $installType && ! isSystemInstall $installType
-then 
-    echo "Non Valid Arguement"
+then
+    error=130
+    echo "Invalid Number of Arguements Provided"
+    echo "Exit Code: $error"
+    exit $error
+elif ! isUserInstall $arguement && ! isSystemInstall $arguement
+then
+    error=131
+    echo "No Valid Arguement Provided"
+    echo "Exit Code: $error"
+    exit $error
 else
-    installAllItems $installType
+    installAllItems $arguement
 fi
