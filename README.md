@@ -37,8 +37,7 @@ This script will install the following onto your system directory.
 
 ## Installing From Repository
 
-1. Download Repository and Run install script.
-    **Installing From Master**
+**Installing From Master**
 ```
     # Clone master Repo
     git clone -b master https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
@@ -102,9 +101,8 @@ Note: Regardless of selected install method Plymouth themes will always be insta
 4. Select the window animation you would like to use in ***System Settings*** > ***Appearance & Style*** > ***Animation***
 
 # Unistalling
-For versions Before v2.0-beta.2: Run the included unistall.sh file
-
-For v2.0-beta.2 or newer run the following:
+1. Download the latest release or clone the repository if you don't already have it
+2. Open the Spotty-KDE-Plasma-Config folder in the terminal, run the command bellow, and follow the onscreen prompts.
 ```
 ./SpottyKDE.sh --uninstall
 ```
@@ -115,8 +113,13 @@ For v2.0-beta.2 or newer run the following:
 2. ***System Settings*** > ***Appearance & Style*** > ***Global Theme*** > ***Colors*** Set Accent color to: Custom Accent Color, with the color code: #926ee4. By default KDE Colors gets the accent color form the color scheme. To set the color code, click accent color form color scheme and change it to Custom Accent Color. Then click the eyedropper and paste in the color code.
 3. The Splash Screen I use is called *Illusion*. I have it installed with the SpottyKDE Config.
 4. ***System Settings*** > ***Appearance & Style*** >  ***Animations*** I have the Winow open/close animation set to: TV Glitch \[Burn-My-Windows\] with the following settings:
+
 Animation Time: 1050
+
 Scale: 1.0
+
 Strength: 10.0
+
 Speed: 2.0
+
 Color: #64a0ff
