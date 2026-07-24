@@ -35,11 +35,23 @@ This script will install the following onto your system directory.
 8. Login Splashes Found in dgudim's Themes repository:
     - Link: https://github.com/dgudim/themes
 
+# Instalation
+
+>[!IMPORTANT]
+> Script Arguements. One of these must be provided at runtime or the script will not run
+
+| Arguemnet | What it does |
+| ------------- | ------------- |
+| -u | Tells the script to install theme for the local user |
+| --user | Tells the script to install theme for the local user |
+| -s | Tells the script to install system theme wide |
+| --system | Tells the script to install theme system wide |
+| --uninstall | Tells the script to unistall theme |
+
 ## Installing From Repository
 
-1. Download Repository and Run install script.
-    **Installing From Master**
-    ```
+**Installing From Master**
+```
     # Clone master Repo
     git clone -b master https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
@@ -102,9 +114,8 @@ Note: Regardless of selected install method Plymouth themes will always be insta
 4. Select the window animation you would like to use in ***System Settings*** > ***Appearance & Style*** > ***Animation***
 
 # Unistalling
-For versions Before v2.0-beta.2: Run the included unistall.sh file
-
-For v2.0-beta.2 or newer run the following:
+1. Download the latest release or clone the repository if you don't already have it
+2. Open the Spotty-KDE-Plasma-Config folder in the terminal, run the command bellow, and follow the onscreen prompts.
 ```
 ./SpottyKDE.sh --uninstall
 ```
@@ -115,8 +126,33 @@ For v2.0-beta.2 or newer run the following:
 2. ***System Settings*** > ***Appearance & Style*** > ***Global Theme*** > ***Colors*** Set Accent color to: Custom Accent Color, with the color code: #926ee4. By default KDE Colors gets the accent color form the color scheme. To set the color code, click accent color form color scheme and change it to Custom Accent Color. Then click the eyedropper and paste in the color code.
 3. The Splash Screen I use is called *Illusion*. I have it installed with the SpottyKDE Config.
 4. ***System Settings*** > ***Appearance & Style*** >  ***Animations*** I have the Winow open/close animation set to: TV Glitch \[Burn-My-Windows\] with the following settings:
+
 Animation Time: 1050
+
 Scale: 1.0
+
 Strength: 10.0
+
 Speed: 2.0
+
 Color: #64a0ff
+
+# ERROR CODES
+>[!IMPORTANT]
+>Error Codes
+
+| Error Code  | Error Message | Cause |
+| ------------- | ------------- | ------------- |
+| 130  | Invalid Number of Arguements Provided | User should only provide one arguement to the script. If no arguements, or more then one arguement is provided then the script will exit with this message |
+| 131 | Invalid Arguement Provided | The user didn't type in a valid arguement to the script, double check you have typed them correctly |
+
+>[!IMPORTANT]
+> Debugging Error codes, These should not occur while running the script if they do open a bug report via the issues page on the repo.
+
+| Error Code | Error Message | Cause |
+| ------------- | ------------- | ------------- |
+| 141 | Invalid option or no option provided in function call | Occurs if the install type is not properly passed to installJetBrainsMono Function |
+| 142 | Invalid option or no option provided in function call |  Occurs if the install type is not properly passed to instalPapirusIcons function |
+| 143 | Invalid option or no option provided in function call | Occurs if the install type is not properly passed to installSpottyKDE function |
+| 144 | Invalid option or no option provided in function call | Occurs if the install type is not properly passed to installSplashScreens Functions |
+| 145 | Invalid option or no option provided in function call | Occurs if the install type is not properly passed to installPlasmaWindowApplet Function |
