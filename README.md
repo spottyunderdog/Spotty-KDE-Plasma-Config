@@ -54,11 +54,12 @@ This script will install the following onto your system directory.
     cd Spotty-KDE-Plasma-Config
 
     # Install For Local User
-    ./install.sh -u
+    ./SpottyKDE.sh -u
     # Install System Wide
-    ./install.sh -s
+    ./SpottyKDE.sh -s
 ```
-The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
+
+Note: Regardless of selected install method Plymouth themes will always be installed system-wide, and the "Add all login splash themes" question adds all themes to the local user directory. Plymouth themes need to be installed system wide in order to work as boot options, and the "Add all splash themes" option adds the login splashes to the local user directory to ensure the user can remove the themes they don't want easily since they get added as if they were "global" themes.
 
 ## Installing From Archive
 1. There are 2 types of releases avaible to download, the Release and Pre-release. The release archives are based on the Master Branch, which gets updates when there is a stable, feature-complete, & funcitonal versions of the script. The Pre-Release verisions, are only functional and may contain incomplete or broken features. Release archive follow this naming format **SpottyKDEPlasma-[version].[tar.gz/zip]**; and the Pre-Releases follow this naming format **SpottyKDEPlasma-[version]-[alpha/beta].[num].[tar.gz/zip]**
@@ -85,6 +86,16 @@ The laucnh options are required, AND MUST BE USED in order to install the themin
 ./install.sh -s
 ```
 
+For v2.0-Beta 2 archiveL
+```
+# For Local User Installs
+./SpottyKDE.sh -u
+
+# For System-Wide Installs
+./SpottyKDE.sh -s
+```
+
+
 The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
 
 ## Post Intall Setup
@@ -98,7 +109,12 @@ The Install script will install most of the dependencies system-wide(ie. /usr/sh
 4. Select the window animation you would like to use in ***System Settings*** > ***Appearance & Style*** > ***Animation***
 
 # Unistalling
-If you don't have the repository anymore, clone the repository, and enter it from the terminal. Then run the included Unistall stcript: *unistall.sh* The script will give you the option to remove the repository if you so choose.
+For versions Before v2.0-beta.2: Run the included unistall.sh file
+
+For v2.0-beta.2 or newer run the following:
+```
+./SpottyKDE.sh --uninstall
+```
 
 # My Settings
 
