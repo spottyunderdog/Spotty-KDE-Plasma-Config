@@ -37,10 +37,11 @@ This script will install the following onto your system directory.
 
 ## Installing From Repository
 
-**Installing From Master Branch**
-```
-    # Clone main Repo
-    git clone -b main https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
+1. Download Repository and Run install script.
+    **Installing From Master**
+    ```
+    # Clone master Repo
+    git clone -b master https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
