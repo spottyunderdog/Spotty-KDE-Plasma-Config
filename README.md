@@ -39,7 +39,7 @@ This script will install the following onto your system directory.
 
 1. Download Repository and Run install script.
     **Installing From Master**
-    ```
+```
     # Clone master Repo
     git clone -b master https://github.com/spottyunderdog/Spotty-KDE-Plasma-Config
 
