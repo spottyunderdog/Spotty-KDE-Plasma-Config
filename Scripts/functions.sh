@@ -299,7 +299,7 @@ installPlasmaWindowApplet() {
     local localDir
     localDir=$(pwd)
     echo "Installing plasma6-window-title-applet..."
-    local installSuccessMes="Window Title Widget Installed Successfully"
+    local installSuccessMes="Window Title Widget Installed Successfully!"
     git clone https://github.com/harunkrl/plasma6-window-title-applet &>> /dev/null
 
     if isUserInstall $installType
@@ -329,8 +329,8 @@ installBurnMyWindowsEffects() {
     local installType=$1
     local localDir
     localDir=$(pwd)
-    echo "Installing Burn My Windows Desktop Effects"
-    local installSuccessMes="Burn My Windows Desktop Effects installed successfully"
+    echo "Installing Burn My Windows Desktop Effects..."
+    local installSuccessMes="Burn My Windows Desktop Effects installed successfully!"
     wget https://github.com/Schneegans/Burn-My-Windows/releases/latest/download/burn_my_windows_kwin6.tar.gz &>> /dev/null
     if isUserInstall $installType
     then
@@ -353,8 +353,39 @@ installBurnMyWindowsEffects() {
         echo "Exit Code: $exitCode"
         exit $exitCode
     fi
-    fi
 
+}
+
+installPlymouthThemes() {
+
+    addThemes() {
+        local path=$1
+        local file
+        for file in "$path"/*
+        do
+            echo "Installing: $(basename $file)"
+            sudo cp -r $file /usr/share/plymouth/themes
+            sleep 0.1
+        done
+
+    }
+
+    echo "Installing Plymouth Boot Themes..."
+    git clone https://github.com/adi1090x/plymouth-themes.git
+
+    local path
+    path=$(pwd)/plymouth-themes
+    local file
+    for file in "$path"/*
+    do
+        case $file in
+           *pack*)
+                addThemes "$file";;
+        esac
+
+    done
+    rm -rf $path
+    echo "Plymouth Boot Themes Installed Successfully!"
 }
 
 displayPackagesToInstall() {
@@ -399,7 +430,7 @@ installAllItems() {
         exit 0
     fi
 
-    sudo pacman -Syu --no-confirm
+    sudo pacman -Syu --noconfirm
 
     installJetBrains "$installType"
 
@@ -413,14 +444,97 @@ installAllItems() {
 
     installSplashScreens "$installType"
 
+    installPlymouthThemes
+
     echo "Install Complete"
 }
 
-unistallConfiguration() {
+uninstallConfiguration() {
+    uninstallJetBrainsMono() {
+        sudo pacman -Rns ttf-jetbrains-mono-nerd
+        sudo rm -rf /usr/share/fonts/*/JetBrainsMono*
+        rm -rf $HOME/.local/share/fonts/fonts/*/JetBrainsMono*
+    }
     
+    uninstallPlymouthThemes() {
+
+        removeThemes() {
+            local path=$1
+            local file
+            for file in "$path"/*
+            do
+                sudo rm -rf /usr/share/plymouth/themes/$(basename $file)
+                echo "removing $(basename $file)"
+            done
+
+        }
+
+        echo "== Uninstalling Plymouth Boot Themes =="
+        echo "Temporarily Cloning Plymouth Themes Repository to Uninstall Themes"
+        git clone https://github.com/adi1090x/plymouth-themes.git
+
+        local path
+        path=$(pwd)/plymouth-themes
+        local file
+
+        for file in "$path"/*
+        do
+            case $file in
+                *pack*)
+                    removeThemes $file;;
+            esac
+
+        done
+        echo "Removing Plymouth Themes Repository from Local Directory"
+        rm -rf $path
+    }
+
+    uninstallBurnMyWindows() {
+        local localDir
+        localDir=$(pwd)/working
+        local file
+        mkdir -p $localDir
+        wget https://github.com/Schneegans/Burn-My-Windows/releases/latest/download/burn_my_windows_kwin6.tar.gz
+        tar -xf burn_my_windows_kwin6.tar.gz -C $localDir
+
+        for file in $localDir/*
+        do
+            sudo rm -rf "/usr/share/kwin/effects/$(basename "$file")"
+            rm -rf "$HOME/.local/share/kwin/effects/$(basename "$file")"
+        done
+        rm -rf $localDir burn_my_windows_kwin6.tar.gz
+    }
+    unistallSplashThemes() {
+        local workingDir
+        local localDir
+        local file
+        localDir=$(pwd)
+        workingDir=$localDir/themes/KDE-loginscreens
+        git clone https://github.com/dgudim/themes
+        
+        for file in $workingDir/*
+        do
+            if isGlobalTheme $file
+            then
+                rm -rf "$HOME"/.local/share/plasma/look-and-feel/"$(basename "$file")"
+            fi
+        done
+        rm -rf $localDir/themes
+    }
     # Uninstalls Papirus
     wget -qO- https://git.io/papirus-icon-theme-uninstall | sh
 
+    uninstallJetBrainsMono
+
+    uninstallPlymouthThemes
+
+    uninstallBurnMyWindows
+
+    #Unistalls SpottyKDE Global Theming
+    sudo rm -rf /usr/share/plasma/look-and-feel/SpottyKDE
+    rm -rf $HOME/.local/share/plasma/look-and-feel/SpottyKDE
+
+    unistallSplashThemes
 }
 
 arguement=$1
@@ -431,12 +545,17 @@ then
     echo "Invalid Number of Arguements Provided"
     echo "Exit Code: $error"
     exit $error
-elif ! isUserInstall $arguement && ! isSystemInstall $arguement
+elif ! isUserInstall $arguement && ! isSystemInstall $arguement && ! isUninstall $arguement
 then
     error=131
     echo "No Valid Arguement Provided"
     echo "Exit Code: $error"
     exit $error
-else
+elif isUninstall $arguement
+then
+    uninstallConfiguration
+elif isUserInstall $arguement || isSystemInstall $arguement
+then
     installAllItems $arguement
 fi
+
