@@ -406,6 +406,7 @@ displayPackagesToInstall() {
     echo "link: https://github.com/JetBrains/JetBrainsMono"
     echo "== JetBrains Mono NerdFont== "
     echo "link: https://github.com/ryanoasis/nerd-fonts"
+    echo "link: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono"
     echo "== Plymouth Boot Themes =="
     echo "link: https://github.com/adi1090x/plymouth-themes"
     echo "== Window Title Widget =="

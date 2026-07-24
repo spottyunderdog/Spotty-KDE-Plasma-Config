@@ -22,13 +22,17 @@ This script will install the following onto your system directory.
     - Links:
         - https://www.jetbrains.com/lp/mono/
         - https://github.com/JetBrains/JetBrainsMono
-4. The Plymouth themes found in adi1090x's plymouth themes repository
+4. Jet Brains Mono Nerd Font
+    - Links:
+        - https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
+        - https://github.com/ryanoasis/nerd-fonts
+5. The Plymouth themes found in adi1090x's plymouth themes repository
     - Link: https://github.com/adi1090x/plymouth-themes
-5. Plasma6 Window Title widget
+6. Plasma6 Window Title widget
     - Link: https://github.com/harunkrl/plasma6-window-title-applet
-6. The Kwin Desktop Effects from Schneegan's Burn-My-Windows Repository
+7. The Kwin Desktop Effects from Schneegan's Burn-My-Windows Repository
     - Link: https://github.com/Schneegans/Burn-My-Windows
-7. Login Splashes Found in dgudim's Themes repository:
+8. Login Splashes Found in dgudim's Themes repository:
     - Link: https://github.com/dgudim/themes
 
 ## Installing From Repository
@@ -41,8 +45,10 @@ This script will install the following onto your system directory.
     # move into Repo directory
     cd Spotty-KDE-Plasma-Config
 
-    # Install
-    ./install.sh
+    # Install For Local User
+    ./SpottyKDE.sh -u
+    # Install System Wide
+    ./SpottyKDE.sh -s
 ```
 
 **Installing From Development** (Not reccommended)
@@ -68,35 +74,21 @@ Note: Regardless of selected install method Plymouth themes will always be insta
 
 3. Enter the SpottyKDE-Plasma-Config Directory, or the directory where you extracted the files contents to, and then run the script. If the script is not executable open the terminal in the directory that has the install script and run:
 ```
-chmod +x install.sh
+chmod +x SpottyKDE.sh
 ```
 and the file should now be executable. You can now run the script.
 
 To run the script open your terminal and run the following (make sure to replace the path to the archive with the location you extracted the archive to)
 ```
 cd /path/to/extracted/archive
-./install.sh
-```
-for the V2.0-Beta 1 archive extract the archive and  run on of the following
-The laucnh options are required, AND MUST BE USED in order to install the theming.
-```
-# For Local User installs
-./install.sh -u
-# For System-Wide Installs
-./install.sh -s
-```
 
-For v2.0-Beta 2 archiveL
-```
 # For Local User Installs
 ./SpottyKDE.sh -u
 
 # For System-Wide Installs
 ./SpottyKDE.sh -s
 ```
-
-
-The Install script will install most of the dependencies system-wide(ie. /usr/share). The only exception are if you choose to install all splash screens, which will be install for the user only, to allow for the easy removal of the extra themes, as they will also appear as global themes.
+Note: Regardless of selected install method Plymouth themes will always be installed system-wide, and the "Add all login splash themes" question adds all themes to the local user directory. Plymouth themes need to be installed system wide in order to work as boot options, and the "Add all splash themes" option adds the login splashes to the local user directory to ensure the user can remove the themes they don't want easily since they get added as if they were "global" themes.
 
 ## Post Intall Setup
 
