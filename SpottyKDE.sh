@@ -433,6 +433,8 @@ installAllItems() {
 
     sudo pacman -Syu --noconfirm
 
+    sudo pacman -S oxygen oxygen-cursors oxygen-icons oxygen-icons-svg oxygen-sounds oxygen5
+
     installJetBrains "$installType"
 
     installPapirusIcons "$installType"
